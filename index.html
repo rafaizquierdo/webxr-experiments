@@ -19,7 +19,7 @@
             camera.object3D.getWorldDirection(direction);
             direction.y = 0;
             direction.normalize();
-            const speed = evt.detail.y * -0.1;
+            const speed = evt.detail.y * 0.1;
             rig.object3D.position.add(direction.multiplyScalar(speed));
           }
         }
