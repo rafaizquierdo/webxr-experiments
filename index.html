@@ -8,37 +8,13 @@
   </head>
   <body>
     <a-scene>
-      <!-- STARSHIP COMPLETO (120 metros de altura) -->
-      <!-- Super Heavy Booster (69m de altura, 9m de diámetro) -->
-      <a-cylinder 
-        position="0 34.5 -50" 
-        radius="4.5" 
-        height="69" 
-        color="#CCCCCC"
-        metalness="0.8"
-        roughness="0.2">
-      </a-cylinder>
-      
-      <!-- Starship nave (50m de altura, 9m de diámetro) -->
-      <a-cylinder 
-        position="0 94 -50" 
-        radius="4.5" 
-        height="50" 
-        color="#E8E8E8"
-        metalness="0.9"
-        roughness="0.1">
-      </a-cylinder>
-      
-      <!-- Punta cónica del Starship (aprox 6m) -->
-      <a-cone 
-        position="0 122 -50" 
-        radius-bottom="4.5" 
-        radius-top="0.5" 
-        height="8" 
-        color="#E8E8E8"
-        metalness="0.9"
-        roughness="0.1">
-      </a-cone>
+      <!-- MODELO 3D STARSHIP COMPLETO A ESCALA REAL -->
+      <a-entity 
+        gltf-model="url(spacex_starship_ship_24__booster_7_v4-v2.glb)" 
+        position="0 0 -50"
+        rotation="0 0 0"
+        scale="1 1 1">
+      </a-entity>
       
       <!-- PERSONA DE REFERENCIA (1.75m de altura) -->
       <!-- Cuerpo -->
