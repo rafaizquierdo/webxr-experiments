@@ -21,6 +21,20 @@
             direction.normalize();
             const speed = evt.detail.y * 0.1;
             rig.object3D.position.add(direction.multiplyScalar(speed));
+                    // Movimiento lateral (izquierda/derecha)
+        if (evt.detail.x > 0.1 || evt.detail.x < -0.1) {
+          const rig = document.querySelector('#rig');
+          const camera = document.querySelector('a-camera');
+          const direction = new THREE.Vector3();
+          camera.object3D.getWorldDirection(direction);
+          direction.y = 0;
+          direction.normalize();
+          // Producto cruz para obtener el vector lateral (perpendicular)
+          const strafe = new THREE.Vector3();
+          strafe.crossVectors(direction, new THREE.Vector3(0, 1, 0));
+          const speed = evt.detail.x * 0.1;
+          rig.object3D.position.add(strafe.multiplyScalar(speed));
+        }
           }
         }
       });
