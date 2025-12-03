@@ -5,6 +5,77 @@
     <title>Escala Real: SpaceX Starship</title>
     <meta name="description" content="Experiencia de escala real de cohetes espaciales en VR">
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+        <script>
+      // Componente personalizado para movimiento con thumbstick VR
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function () {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+        logThumbstick: function (evt) {
+          if (evt.detail.y > 0.1 || evt.detail.y < -0.1) {
+            const rig = document.querySelector('#rig');
+            const camera = document.querySelector('a-camera');
+            const direction = new THREE.Vector3();
+            camera.object3D.getWorldDirection(direction);
+            direction.y = 0;
+            direction.normalize();
+            const speed = evt.detail.y * -0.1;
+            rig.object3D.position.add(direction.multiplyScalar(speed));
+          }
+        }
+      });
+      
+      // Componente para controles de teclado mejorados
+      AFRAME.registerComponent('keyboard-controls', {
+        schema: {
+          acceleration: {default: 65}
+        },
+        init: function () {
+          this.velocity = new THREE.Vector3();
+          this.keys = {};
+          
+          window.addEventListener('keydown', (e) => {
+            this.keys[e.key.toLowerCase()] = true;
+          });
+          
+          window.addEventListener('keyup', (e) => {
+            this.keys[e.key.toLowerCase()] = false;
+          });
+        },
+        tick: function (time, delta) {
+          const camera = document.querySelector('a-camera');
+          const direction = new THREE.Vector3();
+          const speed = this.data.acceleration * (delta / 1000);
+          
+          if (this.keys['w'] || this.keys['arrowup']) {
+            camera.object3D.getWorldDirection(direction);
+            direction.y = 0;
+            direction.normalize();
+            this.el.object3D.position.add(direction.multiplyScalar(speed));
+          }
+          if (this.keys['s'] || this.keys['arrowdown']) {
+            camera.object3D.getWorldDirection(direction);
+            direction.y = 0;
+            direction.normalize();
+            this.el.object3D.position.add(direction.multiplyScalar(-speed));
+          }
+          if (this.keys['a'] || this.keys['arrowleft']) {
+            camera.object3D.getWorldDirection(direction);
+            direction.y = 0;
+            direction.normalize();
+            direction.cross(new THREE.Vector3(0, 1, 0));
+            this.el.object3D.position.add(direction.multiplyScalar(-speed));
+          }
+          if (this.keys['d'] || this.keys['arrowright']) {
+            camera.object3D.getWorldDirection(direction);
+            direction.y = 0;
+            direction.normalize();
+            direction.cross(new THREE.Vector3(0, 1, 0));
+            this.el.object3D.position.add(direction.multiplyScalar(speed));
+          }
+        }
+      });
+    </script>
   </head>
   <body>
     <a-scene>
@@ -95,14 +166,33 @@
       <a-sky color="#87CEEB"></a-sky>
       
       <!-- CÁMARA con controles de movimiento -->
-      <a-entity 
-        position="0 1.6 0" 
-        movement-controls>
+      <!-- RIG COMPLETO: Cámara + Controles para VR y Desktop -->
+      <a-entity id="rig" 
+                position="0 0 0"
+                keyboard-controls>
+        
+        <!-- Cámara principal con mirada libre -->
+        <a-camera 
+          position="0 1.6 0"
+          look-controls="pointerLockEnabled: true">
+          
+          <!-- Cursor para interacciones -->
+          <a-cursor></a-cursor>
+        </a-camera>
+        
+        <!-- Mano izquierda (controlador VR) -->
         <a-entity 
-          camera 
-          look-controls>
+          hand-controls="hand: left"
+          thumbstick-logging>
         </a-entity>
-      </a-entity>
+        
+        <!-- Mano derecha (controlador VR) -->
+        <a-entity 
+          hand-controls="hand: right"
+          thumbstick-logging>
+        </a-entity>
+        
+      </a-entity></a-entity>
     </a-scene>
   </body>
 </html>
