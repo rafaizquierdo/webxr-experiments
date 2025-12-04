@@ -5,6 +5,21 @@
     <title>Escala Real: SpaceX Starship</title>
     <meta name="description" content="Experiencia de escala real de cohetes espaciales en VR">
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
+        <style>
+      /* Indicador de rama */
+      #branch-indicator {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: monospace;
+        font-size: 11px;
+        z-index: 9999;
+        pointer-events: none;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+      }
+    </style>
         <script>
       // Componente personalizado para movimiento con thumbstick VR
       AFRAME.registerComponent('thumbstick-logging', {
@@ -96,6 +111,9 @@
       <!-- MODELO 3D STARSHIP COMPLETO A ESCALA REAL -->
       <a-entity 
         gltf-model="url(spacex_starship_ship_24__booster_7_v4-v2.glb)" 
+            <!-- Indicador de rama -->
+    <div id="branch-indicator">develop</div>
+
         position="0 0 -50"
         rotation="0 0 0"
         scale="10 10 10">      </a-entity>
